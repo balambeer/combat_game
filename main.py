@@ -2,6 +2,7 @@ import sys
 import pygame as pg
 import settings
 from menu import *
+from fighter import *
 
 class Game:
     # Constructor
@@ -17,6 +18,10 @@ class Game:
         self.game_over = False
         self.clock = pg.time.Clock()
         self.delta_time = 0
+        
+        self.player = Fighter(self,
+                              (100, 400), # TODO: placeholder
+                              "assets/sprites/fighter_1/")
     
     # Check events
     def check_for_quit(self, event):
@@ -44,7 +49,8 @@ class Game:
     # Update screen
     def draw(self):
         pg.display.flip()
-        self.screen.fill('gray')      
+        self.screen.fill('gray')
+        self.player.draw()
         
     # main funciton
     def run(self):
