@@ -5,8 +5,10 @@ class Fighter():
     def __init__(self, game,
                  start_pos,
                  movement_speed,
+                 max_health,
                  path,
-                 animation_speed):
+                 animation_speed,
+                 color):
         self.game = game
         
         # sprites
@@ -16,16 +18,20 @@ class Fighter():
         # fighter representation
         self.state = "idle"
         self.changed_state = False
-        self.rect = pg.Rect((start_pos[0], start_pos[1] - self.image.get_height()),
+        self.rect = pg.Rect((start_pos[0] - self.image.get_width() // 2, start_pos[1] - self.image.get_height()),
                             (self.image.get_width(), self.image.get_height()))
         self.facing_left = True
         self.movement_speed = movement_speed
+        self.health = max_health
         
         # animation
         self.image_rect = self.image.get_rect(midbottom = self.rect.midbottom)
         self.image_counter = 0
         self.animation_speed = animation_speed
-        self.time_since_last_frame = 0               
+        self.time_since_last_frame = 0
+        
+        # debug
+        self.color = color
         
     def load_sprites(self, path):
         self.sprites = { "idle": [], "move": [], "attack": [] }
@@ -47,7 +53,6 @@ class Fighter():
             self.changed_state = True
     
     def update_state(self, control_input):
-        print("Taking inputs = %s" % self.taking_inputs)
         if self.taking_inputs:
             self.update_changed_state(control_input)
             
@@ -76,10 +81,6 @@ class Fighter():
         if self.time_since_last_frame > self.animation_speed or self.changed_state:
             self.image_counter = (self.image_counter + 1) % self.n_images[self.state]
             self.time_since_last_frame = 0
-        
-            if self.state == "attack":
-                print("state = %s" % self.state)
-                print("image_counter = %i" % self.image_counter)
             
             self.image = self.sprites[self.state][self.image_counter]
             if self.state == "attack":
@@ -90,16 +91,20 @@ class Fighter():
             else:
                 self.image_rect = self.image.get_rect(center = self.rect.center)
         
-    def update(self, control_input):
+    def update_health(self, enemy):
+        if enemy.state == "attack":
+            if self.rect.colliderect(enemy.image_rect):
+                self.health -= 1
+                print("Ouch. New health = %i" % self.health)
+        
+    def update(self, control_input, enemy):
         self.update_state(control_input)
         self.animate(control_input)
-        
-#         print(self.rect.x)
-#         print(self.image_rect.x)
+        self.update_health(enemy)
         
     def draw(self):
         self.game.screen.blit(self.image, self.image_rect)
         pg.draw.rect(self.game.screen,
-                     "orchid3",
+                     self.color,
                      self.rect,
                      width = 2)

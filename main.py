@@ -3,6 +3,7 @@ import pygame as pg
 import settings
 from menu import *
 from player import *
+from npc import *
 
 class Game:
     # Constructor
@@ -20,10 +21,13 @@ class Game:
         self.delta_time = 0
         
         self.player = Player(self,
-                             (100, int(1.25 * settings.sky_proportion * settings.screen_height)), # TODO: placeholder
-                             settings.movement_speed,
-                             "assets/sprites/fighter_1/",
-                             settings.animation_speed)
+                             ( int(0.2 * settings.screen_width),
+                               int(1.25 * settings.sky_proportion * settings.screen_height) )
+                            ) # TODO: placeholder
+        self.enemy = NPC(self,
+                         ( int(0.8 * settings.screen_width),
+                           int(1.25 * settings.sky_proportion * settings.screen_height) )
+                        ) # TODO: placeholder
     
     # Check events
     def check_for_quit(self, event):
@@ -46,6 +50,7 @@ class Game:
         else:
             self.delta_time = self.clock.tick(settings.fps)
             self.player.update()
+            self.enemy.update()
         
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
 
@@ -65,6 +70,7 @@ class Game:
         pg.display.flip()
         self.draw_background()
         self.player.draw()
+        self.enemy.draw()
         
     # main funciton
     def run(self):

@@ -1,13 +1,16 @@
 import pygame as pg
+import settings
 from fighter import *
 
 class Player(Fighter):
     def __init__(self, game,
                  start_pos,
-                 movement_speed,
-                 path,
-                 animation_speed):
-        super().__init__(game, start_pos, movement_speed, path, animation_speed)
+                 movement_speed = settings.movement_speed,
+                 max_health = settings.max_health,
+                 path = "assets/sprites/fighter_1/",
+                 animation_speed = settings.animation_speed,
+                 color = "orchid3"):
+        super().__init__(game, start_pos, movement_speed, max_health, path, animation_speed, color)
         
     def get_keyboard_inputs(self):
         
@@ -27,8 +30,7 @@ class Player(Fighter):
         if keys[pg.K_s]:
             control_input = "attack"
         
-        print("Control input = %s" % control_input)
         return control_input
     
     def update(self):
-        super().update(self.get_keyboard_inputs())
+        super().update(self.get_keyboard_inputs(), self.game.enemy)

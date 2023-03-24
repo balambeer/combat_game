@@ -18,3 +18,4 @@ sky_proportion = 0.6
 # Fighter
 animation_speed = 100
 movement_speed = 25
+max_health = 3
