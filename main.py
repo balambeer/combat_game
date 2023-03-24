@@ -2,7 +2,7 @@ import sys
 import pygame as pg
 import settings
 from menu import *
-from fighter import *
+from player import *
 
 class Game:
     # Constructor
@@ -19,9 +19,11 @@ class Game:
         self.clock = pg.time.Clock()
         self.delta_time = 0
         
-        self.player = Fighter(self,
-                              (100, 400), # TODO: placeholder
-                              "assets/sprites/fighter_1/")
+        self.player = Player(self,
+                             (100, int(1.25 * settings.sky_proportion * settings.screen_height)), # TODO: placeholder
+                             settings.movement_speed,
+                             "assets/sprites/fighter_1/",
+                             settings.animation_speed)
     
     # Check events
     def check_for_quit(self, event):
@@ -38,18 +40,30 @@ class Game:
         return pg.mouse.get_pressed()[0]
     
     def update_game_state(self):
-        self.delta_time = self.clock.tick(settings.fps)
-        
         if self.check_game_over_condition():
             self.menu.update_at_game_over()
             self.game_over = True
+        else:
+            self.delta_time = self.clock.tick(settings.fps)
+            self.player.update()
         
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
 
     # Update screen
+    def draw_background(self):
+        sky_height = int(settings.sky_proportion * settings.screen_height)
+        pg.draw.rect(self.screen,
+                     "lightskyblue1",
+                     pg.Rect(0, 0, settings.screen_width, sky_height))
+        pg.draw.rect(self.screen,
+                     "olivedrab3",
+                     pg.Rect(0, sky_height,
+                             settings.screen_width, settings.screen_height - sky_height))
+        
+    
     def draw(self):
         pg.display.flip()
-        self.screen.fill('gray')
+        self.draw_background()
         self.player.draw()
         
     # main funciton

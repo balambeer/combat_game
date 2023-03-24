@@ -11,3 +11,10 @@ font_size = screen_height // 10
 menu_background_color = "cadetblue4"
 menu_button_color = "khaki2"
 menu_text_color = "gray"
+
+# Game rendering
+sky_proportion = 0.6
+
+# Fighter
+animation_speed = 100
+movement_speed = 25
