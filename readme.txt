@@ -16,7 +16,6 @@ Try to build a prototype fast!
 Implementation
 --------------
 
-- Add turning animation
 - Add NPC attacking back (to test if attacks resolve well on that side also)
 - Place fighters into a "fighter handler" class, for easier resolution of shit? Also with an eye toward making this a Castlevantia type shit?
 - Add proper attack resolution (i.e. hit/block/reposte/counter):

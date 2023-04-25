@@ -22,11 +22,13 @@ class Game:
         
         self.player = Player(self,
                              ( int(0.2 * settings.screen_width),
-                               int(1.25 * settings.sky_proportion * settings.screen_height) )
+                               int(1.25 * settings.sky_proportion * settings.screen_height) ),
+                             False
                             ) # TODO: placeholder
         self.enemy = NPC(self,
                          ( int(0.8 * settings.screen_width),
-                           int(1.25 * settings.sky_proportion * settings.screen_height) )
+                           int(1.25 * settings.sky_proportion * settings.screen_height) ),
+                         True
                         ) # TODO: placeholder
     
     # Check events

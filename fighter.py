@@ -4,6 +4,7 @@ from support import import_folder
 class Fighter():
     def __init__(self, game,
                  start_pos,
+                 start_facing_left,
                  movement_speed,
                  max_health,
                  path,
@@ -21,7 +22,7 @@ class Fighter():
         self.changed_state = False
         self.rect = pg.Rect((start_pos[0] - self.image.get_width() // 2, start_pos[1] - self.image.get_height()),
                             (self.image.get_width(), self.image.get_height()))
-        self.facing_left = True
+        self.facing_left = start_facing_left
         self.movement_speed = movement_speed
         self.health = max_health
         
@@ -35,8 +36,8 @@ class Fighter():
         self.color = color
         
     def load_sprites(self, path):
-        self.sprites = { "idle": [], "move": [], "attack": [] }
-        self.n_images = { "idle": 0, "move": 0, "attack": 0 }
+        self.sprites = { "idle": [], "move": [], "attack": [], "turn": [] }
+        self.n_images = { "idle": 0, "move": 0, "attack": 0, "turn": 0 }
         
         for state in self.sprites.keys():
             folder_path = path + state
@@ -57,24 +58,31 @@ class Fighter():
                 self.image_counter = 0                
                 self.state = "move"
             elif control_input == "turn":
-                self.facing_left = not self.facing_left
+                self.image_counter = 0
+                self.state = "turn"
             elif control_input == "attack":
                 self.attacking = True
                 self.image_counter = 0
                 self.state = "attack"
-            elif control_input == "idle":
-                self.image_counter = 0
-                self.state = "idle"
-        elif self.state == "attack" or self.state == "move":
+#             elif control_input == "idle":
+#                 self.image_counter = 0
+#                 self.state = "idle"
+        else:
             if self.image_counter == 0:
                 self.state = "idle"
                 
-    def update_position(self):
+    def update_position_and_facing(self):
         if self.state == "move":
             if self.facing_left:
                 self.rect.x -= self.movement_speed // self.n_images["move"]
             else:
                 self.rect.x += self.movement_speed // self.n_images["move"]
+        if self.state == "turn" and self.image_counter == 0:
+            self.facing_left = not self.facing_left
+            if self.facing_left:
+                print("facing left")
+            else:
+                print("facing right")
     
     def animate(self):
         self.time_since_last_frame += self.game.delta_time
@@ -104,7 +112,7 @@ class Fighter():
         
     def update(self, control_input, enemy):
         self.update_state(control_input)
-        self.update_position()
+        self.update_position_and_facing()
         self.animate()
 #         self.update_health(enemy)
 #         self.did_i_hit(enemy)
