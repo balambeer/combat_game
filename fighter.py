@@ -36,8 +36,8 @@ class Fighter():
         self.color = color
         
     def load_sprites(self, path):
-        self.sprites = { "idle": [], "move": [], "attack": [], "turn": [] }
-        self.n_images = { "idle": 0, "move": 0, "attack": 0, "turn": 0 }
+        self.sprites = { "idle": [], "move": [], "attack_low": [], "attack_mid": [], "attack_high": [], "turn": [] }
+        self.n_images = { "idle": 0, "move": 0, "attack_low": 0, "attack_mid": 0, "attack_high": 0, "turn": 0 }
         
         for state in self.sprites.keys():
             folder_path = path + state
@@ -60,10 +60,18 @@ class Fighter():
             elif control_input == "turn":
                 self.image_counter = 0
                 self.state = "turn"
-            elif control_input == "attack":
+            elif control_input == "attack_low":
                 self.attacking = True
                 self.image_counter = 0
-                self.state = "attack"
+                self.state = "attack_low"
+            elif control_input == "attack_mid":
+                self.attacking = True
+                self.image_counter = 0
+                self.state = "attack_mid"
+            elif control_input == "attack_high":
+                self.attacking = True
+                self.image_counter = 0
+                self.state = "attack_high"
 #             elif control_input == "idle":
 #                 self.image_counter = 0
 #                 self.state = "idle"
@@ -91,7 +99,7 @@ class Fighter():
             self.time_since_last_frame = 0
             
             self.image = self.sprites[self.state][self.image_counter]
-            if self.state == "attack":
+            if self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high":
                 if self.facing_left:
                     self.image_rect = self.image.get_rect(bottomright = self.rect.bottomright)
                 else:

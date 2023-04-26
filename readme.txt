@@ -16,7 +16,7 @@ Try to build a prototype fast!
 Implementation
 --------------
 
-- Add NPC attacking back (to test if attacks resolve well on that side also)
+- Add NPC attacking (to test if attacks resolve well on that side also)
 - Place fighters into a "fighter handler" class, for easier resolution of shit? Also with an eye toward making this a Castlevantia type shit?
 - Add proper attack resolution (i.e. hit/block/reposte/counter):
   * introduce telegraphing state, and animation & state depends on whether input arrives when opponent is telegraphing

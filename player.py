@@ -17,18 +17,22 @@ class Player(Fighter):
         control_input = "idle"
         
         keys = pg.key.get_pressed()
+        if keys[pg.K_LEFT]:
+            if self.facing_left:
+                control_input = "move"
+            else:
+                control_input = "turn"
+        if keys[pg.K_RIGHT]:
+            if self.facing_left:
+                control_input = "turn"
+            else:
+                control_input = "move"
         if keys[pg.K_a]:
-            if self.facing_left:
-                control_input = "move"
-            else:
-                control_input = "turn"
-        if keys[pg.K_d]:
-            if self.facing_left:
-                control_input = "turn"
-            else:
-                control_input = "move"
+            control_input = "attack_low"
         if keys[pg.K_s]:
-            control_input = "attack"
+            control_input = "attack_mid"
+        if keys[pg.K_d]:
+            control_input = "attack_high"
         
         return control_input
     
