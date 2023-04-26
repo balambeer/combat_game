@@ -48,14 +48,12 @@ class Game:
     def resolve_attacks(self):
         if self.player.attacking:
             if self.enemy.rect.colliderect(self.player.image_rect):
-                self.enemy.health -= 1
+                self.enemy.pain = True
                 self.player.attacking = False
-                print("Ouch. New enemy health = %i" % self.enemy.health)
         if self.enemy.attacking:
             if self.player.rect.colliderect(self.enemy.image_rect):
-                self.player.health -= 1
+                self.player.pain = True
                 self.enemy.attacking = False
-                print("Ouch. New player health = %i" % self.player.health)
     
     def update_game_state(self):
         if self.check_game_over_condition():

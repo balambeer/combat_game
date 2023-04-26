@@ -17,5 +17,6 @@ sky_proportion = 0.6
 
 # Fighter
 animation_speed = 100
-movement_speed = int(0.1 * screen_width)
+movement_distance = int(0.1 * screen_width)
 max_health = 3
+telegraphing_limit = 1

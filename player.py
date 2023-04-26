@@ -5,12 +5,12 @@ from fighter import *
 class Player(Fighter):
     def __init__(self, game,
                  start_pos, start_facing_left,
-                 movement_speed = settings.movement_speed,
+                 movement_distance = settings.movement_distance,
                  max_health = settings.max_health,
                  path = "assets/sprites/fighter_1/",
                  animation_speed = settings.animation_speed,
                  color = "orchid3"):
-        super().__init__(game, start_pos, start_facing_left, movement_speed, max_health, path, animation_speed, color)
+        super().__init__(game, start_pos, start_facing_left, movement_distance, max_health, path, animation_speed, color)
         
     def get_keyboard_inputs(self):
         

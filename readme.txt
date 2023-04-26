@@ -20,4 +20,4 @@ Implementation
 - Place fighters into a "fighter handler" class, for easier resolution of shit? Also with an eye toward making this a Castlevantia type shit?
 - Add proper attack resolution (i.e. hit/block/reposte/counter):
   * introduce telegraphing state, and animation & state depends on whether input arrives when opponent is telegraphing
-  * upon collision - i.e. no explicit telegraphing state for attacks, animations are always the same. Still need cue as to what is happening, and animation can change after... not sure if this is such a good idea.
+  * introduce block and injured animations
