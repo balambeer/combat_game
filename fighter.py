@@ -31,7 +31,7 @@ class Fighter():
         self.movement_speed = movement_distance // int(settings.fps * self.n_images["move"] * self.animation_speed / 1000 )
         self.health = max_health
         
-        print(self.movement_speed)
+        # print(self.movement_speed)
         
         # animation
         self.image_rect = self.image.get_rect(midbottom = self.rect.midbottom)
@@ -49,7 +49,8 @@ class Fighter():
                          "attack_mid": [],
                          "attack_high": [],
                          "block": [],
-                         "pain": [] }
+                         "pain": [],
+                         "death": [] }
         self.n_images = { "idle": 0,
                           "move": 0,
                           "turn": 0,
@@ -57,7 +58,8 @@ class Fighter():
                           "attack_mid": 0,
                           "attack_high": 0,
                           "block": 0,
-                          "pain": 0 }
+                          "pain": 0,
+                          "death": 0 }
         
         for state in self.sprites.keys():
             folder_path = path + state
@@ -67,6 +69,10 @@ class Fighter():
     @property
     def telegraphing(self):
         return (self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high") and self.image_counter <= settings.telegraphing_limit
+    
+    @property
+    def dead(self):
+        return self.health <= 0
     
     def update_changed_state(self, control_input):
         if self.state == control_input:
@@ -78,9 +84,13 @@ class Fighter():
         self.changed_state = False
         
         if self.pain:
-            self.state = "pain"
+            if self.dead:
+                self.state = "death"
+            else:
+                self.state = "pain"
             self.image_counter = 0
             self.changed_state = True
+            self.pain = False
         elif self.state == "idle":
             if ( control_input == "move" or
                  control_input == "turn" or
@@ -105,18 +115,17 @@ class Fighter():
                 self.rect.x -= self.movement_speed
             else:
                 self.rect.x += self.movement_speed
-            print(self.rect.x)
+            # print(self.rect.x)
         if self.state == "turn" and self.image_counter == 0:
             self.facing_left = not self.facing_left
-            if self.facing_left:
-                print("facing left")
-            else:
-                print("facing right")
+#             if self.facing_left:
+#                 print("facing left")
+#             else:
+#                 print("facing right")
                 
     def update_health(self):
         if self.pain:
             self.health -= 1
-            self.pain = False
             print("Ouch. New health = %i" % self.health)
     
     def animate(self):
@@ -132,13 +141,19 @@ class Fighter():
                     self.image_rect = self.image.get_rect(bottomright = self.rect.bottomright)
                 else:
                     self.image_rect = self.image.get_rect(bottomleft = self.rect.bottomleft)
+            elif self.state == "death":
+                if self.facing_left:
+                    self.image_rect = self.image.get_rect(bottomleft = self.rect.bottomleft)
+                else:
+                    self.image_rect = self.image.get_rect(bottomright = self.rect.bottomright)
             else:
                 self.image_rect = self.image.get_rect(center = self.rect.center)
         
     def update(self, control_input, enemy):
-        self.update_state(control_input)
-        self.update_position_and_facing()
-        self.update_health()
+        if not self.dead:
+            self.update_health()
+            self.update_state(control_input)
+            self.update_position_and_facing()
         self.animate()
         
     def draw(self):
