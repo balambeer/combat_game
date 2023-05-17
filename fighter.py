@@ -74,14 +74,10 @@ class Fighter():
     def dead(self):
         return self.health <= 0
     
-    def update_changed_state(self, control_input):
-        if self.state == control_input:
-            self.changed_state = False
-        else:
-            self.changed_state = True
+    def in_fight(self, opponent):
+        return abs(self.rect.x - opponent.rect.x) < settings.fight_distance
     
     def update_state(self, control_input):
-        self.changed_state = False
         
         if self.pain:
             if self.dead:
@@ -149,7 +145,8 @@ class Fighter():
             else:
                 self.image_rect = self.image.get_rect(center = self.rect.center)
         
-    def update(self, control_input, enemy):
+    def update(self, control_input):
+        self.changed_state = False
         if not self.dead:
             self.update_health()
             self.update_state(control_input)

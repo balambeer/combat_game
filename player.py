@@ -37,4 +37,4 @@ class Player(Fighter):
         return control_input
     
     def update(self):
-        super().update(self.get_keyboard_inputs(), self.game.enemy)
+        super().update(self.get_keyboard_inputs())

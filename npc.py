@@ -16,4 +16,4 @@ class NPC(Fighter):
         return "idle"
     
     def update(self):
-        super().update(self.ai_controls(), self.game.player)
+        super().update(self.ai_controls())

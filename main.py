@@ -2,8 +2,7 @@ import sys
 import pygame as pg
 import settings
 from menu import *
-from player import *
-from npc import *
+from character_handler import *
 
 class Game:
     # Constructor
@@ -20,16 +19,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.delta_time = 0
         
-        self.player = Player(self,
-                             ( int(0.2 * settings.screen_width),
-                               int(1.25 * settings.sky_proportion * settings.screen_height) ),
-                             False
-                            ) # TODO: placeholder
-        self.enemy = NPC(self,
-                         ( int(0.8 * settings.screen_width),
-                           int(1.25 * settings.sky_proportion * settings.screen_height) ),
-                         True
-                        ) # TODO: placeholder
+        self.character_handler = CharacterHandler(self)
     
     # Check events
     def check_for_quit(self, event):
@@ -45,25 +35,13 @@ class Game:
     def check_game_over_condition(self):
         return pg.mouse.get_pressed()[0]
     
-    def resolve_attacks(self):
-        if self.player.attacking:
-            if self.enemy.rect.colliderect(self.player.image_rect):
-                self.enemy.pain = True
-                self.player.attacking = False
-        if self.enemy.attacking:
-            if self.player.rect.colliderect(self.enemy.image_rect):
-                self.player.pain = True
-                self.enemy.attacking = False
-    
     def update_game_state(self):
         if self.check_game_over_condition():
             self.menu.update_at_game_over()
             self.game_over = True
         else:
             self.delta_time = self.clock.tick(settings.fps)
-            self.player.update()
-            self.enemy.update()
-            self.resolve_attacks()
+            self.character_handler.update()
         
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
 
@@ -82,8 +60,7 @@ class Game:
     def draw(self):
         pg.display.flip()
         self.draw_background()
-        self.player.draw()
-        self.enemy.draw()
+        self.character_handler.draw()
         
     # main funciton
     def run(self):

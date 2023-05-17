@@ -20,3 +20,6 @@ animation_speed = 100
 movement_distance = int(0.1 * screen_width)
 max_health = 3
 telegraphing_limit = 1
+
+# NPC
+fight_distance = screen_width // 2
