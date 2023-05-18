@@ -75,8 +75,8 @@ class Fighter():
             self.attack_state_lims.update({row[csv_table.col_index["name"]]: {"telegraph": telegraph_lim, "attack": attack_lim}})
             
     @property
-    def telegraphing(self):
-        return (self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high") and self.image_counter <= settings.telegraphing_limit
+    def attacking(self):
+        return (self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high")
     
     @property
     def dead(self):
@@ -95,13 +95,41 @@ class Fighter():
             self.image_counter = 0
             self.changed_state = True
             self.pain = False
+        elif self.attack_state == "riposte":
+            if (opponent.attack_state == "recovery" or opponent.attack_state == "none"):
+                if opponent.state == "attack_low":
+                    self.state = "attack_mid"
+                elif opponent.state == "attack_mid":
+                    self.state = "attack_high"
+                elif opponent.state == "attack_high":
+                    self.state = "attack_low"
+                else:
+                    raise Exception("Opponent is not attacking...")
+                self.attack_state = "none"
+                self.image_counter = 0
+                self.changed_state = True
         elif self.state == "idle":
             if ( control_input == "move" or
-                 control_input == "turn" or
-                 control_input == "attack_low" or
+                 control_input == "turn"):
+                self.state = control_input
+                self.image_counter = 0
+                self.changed_state = True
+            # Attacks are resolved based on opponents state
+            elif (control_input == "attack_low" or
                  control_input == "attack_mid" or
                  control_input == "attack_high" ):
-                self.state = control_input
+                if opponent.attacking:
+                    if opponent.attack_state == "telegraph":
+                        if control_input == opponent.state:
+                            self.state = "block"
+                        elif ( (control_input == "attack_mid" and opponent.state == "attack_low") or
+                               (control_input == "attack_high" and opponent.state == "attack_mid") or
+                               (control_input == "attack_low" and opponent.state == "attack_high") ):
+                            self.state = "block"
+                            self.attack_state = "riposte"
+                else:
+                    self.state = control_input
+                
                 self.image_counter = 0
                 self.changed_state = True
         else:
