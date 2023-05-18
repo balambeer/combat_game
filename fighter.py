@@ -95,17 +95,20 @@ class Fighter():
             self.image_counter = 0
             self.changed_state = True
             self.pain = False
-        elif self.attack_state == "riposte":
+        elif self.state == "block":
             if (opponent.attack_state == "recovery" or opponent.attack_state == "none"):
-                if opponent.state == "attack_low":
-                    self.state = "attack_mid"
-                elif opponent.state == "attack_mid":
-                    self.state = "attack_high"
-                elif opponent.state == "attack_high":
-                    self.state = "attack_low"
+                if self.attack_state == "riposte":
+                    if opponent.state == "attack_low":
+                        self.state = "attack_mid"
+                    elif opponent.state == "attack_mid":
+                        self.state = "attack_high"
+                    elif opponent.state == "attack_high":
+                        self.state = "attack_low"
+                    else:
+                        raise Exception("Opponent is not attacking...")
                 else:
-                    raise Exception("Opponent is not attacking...")
-                self.attack_state = "none"
+                    self.state = "idle"
+                    
                 self.image_counter = 0
                 self.changed_state = True
         elif self.state == "idle":
@@ -160,7 +163,7 @@ class Fighter():
                 self.state = "idle"
                 
     def update_attack_state(self):
-        if self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high":
+        if self.attacking:
             attack_mode = self.state.split("_")[1]
             if ( (self.attack_state == "none" or self.attack_state == "telegraph") and
                  1 <= self.image_counter and
@@ -193,7 +196,8 @@ class Fighter():
         self.time_since_last_frame += self.game.delta_time
         if self.time_since_last_frame > self.animation_speed or self.changed_state:
             
-            self.image_counter = (self.image_counter + 1) % self.n_images[self.state]
+            if not (self.state == "block" and self.image_counter == 0):
+                self.image_counter = (self.image_counter + 1) % self.n_images[self.state]
             self.time_since_last_frame = 0
             
             self.image = self.sprites[self.state][self.image_counter]
