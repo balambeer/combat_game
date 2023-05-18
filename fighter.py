@@ -77,7 +77,35 @@ class Fighter():
     def in_fight(self, opponent):
         return abs(self.rect.x - opponent.rect.x) < settings.fight_distance
     
-    def update_state(self, control_input):
+    def update_state_in_fight(self, control_input, opponent):
+        
+        if self.pain:
+            if self.dead:
+                self.state = "death"
+            else:
+                self.state = "pain"
+            self.image_counter = 0
+            self.changed_state = True
+            self.pain = False
+        elif self.state == "idle":
+            if ( control_input == "move" or
+                 control_input == "turn" or
+                 control_input == "attack_low" or
+                 control_input == "attack_mid" or
+                 control_input == "attack_high" ):
+                self.state = control_input
+                self.image_counter = 0
+                self.changed_state = True
+                
+                if ( control_input == "attack_low" or
+                     control_input == "attack_mid" or
+                     control_input == "attack_high" ):
+                    self.attacking = True
+        else:
+            if self.image_counter == 0:
+                self.state = "idle"
+    
+    def update_state_not_in_fight(self, control_input):
         
         if self.pain:
             if self.dead:
@@ -145,11 +173,14 @@ class Fighter():
             else:
                 self.image_rect = self.image.get_rect(center = self.rect.center)
         
-    def update(self, control_input):
+    def update(self, control_input, opponent):
         self.changed_state = False
         if not self.dead:
             self.update_health()
-            self.update_state(control_input)
+            if opponent == None:
+                self.update_state_not_in_fight(control_input)
+            else:
+                self.update_state_in_fight(control_input, opponent)
             self.update_position_and_facing()
         self.animate()
         

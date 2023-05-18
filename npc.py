@@ -15,5 +15,5 @@ class NPC(Fighter):
     def ai_controls(self):
         return "idle"
     
-    def update(self):
-        super().update(self.ai_controls())
+    def update(self, opponent):
+        super().update(self.ai_controls(), opponent)

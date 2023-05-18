@@ -56,11 +56,15 @@ class CharacterHandler():
     def update(self):
         self.update_lists()
         
-        self.player.update()
+        if len(self.fight_list) == 0:
+            self.player.update(None)
+        else:
+            # Player reacts to only the 1st enemy in the fight_list
+            self.player.update(self.fight_list[0])
         for enemy in self.enemy_list:
-            enemy.update()
+            enemy.update(None)
         for enemy in self.fight_list:
-            enemy.update()
+            enemy.update(self.player)
             self.resolve_fight_with_enemy(enemy)
             
     def draw(self):
