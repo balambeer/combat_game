@@ -22,6 +22,7 @@ class Fighter():
         
         # fighter representation
         self.state = "idle"
+        self.attack_state = "none"
         self.attacking = False
         self.pain = False
         self.changed_state = False
@@ -141,6 +142,18 @@ class Fighter():
             if self.image_counter == 0:
                 self.state = "idle"
                 
+    def update_attack_state(self):
+        if self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high":
+            attack_mode = self.state.split("_")[1]
+            if 1 <= self.image_counter and self.image_counter <= self.attack_state_lims[attack_mode]["telegraph"]:
+                self.attack_state = "telegraph"
+            elif 1 <= self.image_counter and self.image_counter <= self.attack_state_lims[attack_mode]["attack"]:
+                self.attack_state = "attack"
+            else:
+                self.attack_state = "recovery"
+        else:
+            self.attack_state = "none"
+                
     def update_position_and_facing(self):
         if self.state == "move":
             if self.facing_left:
@@ -180,6 +193,8 @@ class Fighter():
                     self.image_rect = self.image.get_rect(bottomright = self.rect.bottomright)
             else:
                 self.image_rect = self.image.get_rect(center = self.rect.center)
+                
+            self.update_attack_state()
         
     def update(self, control_input, opponent):
         self.changed_state = False
