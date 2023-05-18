@@ -24,14 +24,14 @@ class CharacterHandler():
             )
         
     def resolve_fight_with_enemy(self, enemy):
-        if self.player.attacking:
+        if self.player.attack_state == "attack":
             if enemy.rect.colliderect(self.player.image_rect):
                 enemy.pain = True
-                self.player.attacking = False
-        if enemy.attacking:
+                self.player.attack_state = "recovery"
+        if enemy.attack_state == "attack":
             if self.player.rect.colliderect(enemy.image_rect):
                 self.player.pain = True
-                enemy.attacking = False
+                enemy.attack_state = "recovery"
                 
     def resolve_fights(self):
         for fighting_enemy in self.fight_list:

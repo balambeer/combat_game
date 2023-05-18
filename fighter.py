@@ -23,7 +23,6 @@ class Fighter():
         # fighter representation
         self.state = "idle"
         self.attack_state = "none"
-        self.attacking = False
         self.pain = False
         self.changed_state = False
         self.rect = pg.Rect((start_pos[0] - self.image.get_width() // 2, start_pos[1] - self.image.get_height()),
@@ -105,11 +104,6 @@ class Fighter():
                 self.state = control_input
                 self.image_counter = 0
                 self.changed_state = True
-                
-                if ( control_input == "attack_low" or
-                     control_input == "attack_mid" or
-                     control_input == "attack_high" ):
-                    self.attacking = True
         else:
             if self.image_counter == 0:
                 self.state = "idle"
@@ -133,11 +127,6 @@ class Fighter():
                 self.state = control_input
                 self.image_counter = 0
                 self.changed_state = True
-                
-                if ( control_input == "attack_low" or
-                     control_input == "attack_mid" or
-                     control_input == "attack_high" ):
-                    self.attacking = True
         else:
             if self.image_counter == 0:
                 self.state = "idle"
@@ -145,9 +134,13 @@ class Fighter():
     def update_attack_state(self):
         if self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high":
             attack_mode = self.state.split("_")[1]
-            if 1 <= self.image_counter and self.image_counter <= self.attack_state_lims[attack_mode]["telegraph"]:
+            if ( (self.attack_state == "none" or self.attack_state == "telegraph") and
+                 1 <= self.image_counter and
+                 self.image_counter <= self.attack_state_lims[attack_mode]["telegraph"] ):
                 self.attack_state = "telegraph"
-            elif 1 <= self.image_counter and self.image_counter <= self.attack_state_lims[attack_mode]["attack"]:
+            elif ( (self.attack_state == "telegraph" or self.attack_state == "attack") and
+                   1 <= self.image_counter and
+                   self.image_counter <= self.attack_state_lims[attack_mode]["attack"] ):
                 self.attack_state = "attack"
             else:
                 self.attack_state = "recovery"
@@ -160,13 +153,8 @@ class Fighter():
                 self.rect.x -= self.movement_speed
             else:
                 self.rect.x += self.movement_speed
-            # print(self.rect.x)
         if self.state == "turn" and self.image_counter == 0:
             self.facing_left = not self.facing_left
-#             if self.facing_left:
-#                 print("facing left")
-#             else:
-#                 print("facing right")
                 
     def update_health(self):
         if self.pain:
