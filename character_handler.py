@@ -25,11 +25,11 @@ class CharacterHandler():
         
     def resolve_fight_with_enemy(self, enemy):
         if self.player.attack_state == "attack":
-            if enemy.rect.colliderect(self.player.image_rect):
+            if enemy.rect.colliderect(self.player.image_rect) and not enemy.state == "block":
                 enemy.pain = True
                 self.player.attack_state = "recovery"
         if enemy.attack_state == "attack":
-            if self.player.rect.colliderect(enemy.image_rect):
+            if self.player.rect.colliderect(enemy.image_rect) and not self.player.state == "block":
                 self.player.pain = True
                 enemy.attack_state = "recovery"
                 

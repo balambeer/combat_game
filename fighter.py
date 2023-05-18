@@ -196,12 +196,12 @@ class Fighter():
         self.time_since_last_frame += self.game.delta_time
         if self.time_since_last_frame > self.animation_speed or self.changed_state:
             
-            if not (self.state == "block" and self.image_counter == 0):
+            if not (self.state == "block" and self.image_counter == 0 and not self.changed_state):
                 self.image_counter = (self.image_counter + 1) % self.n_images[self.state]
             self.time_since_last_frame = 0
             
             self.image = self.sprites[self.state][self.image_counter]
-            if self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high":
+            if self.attacking:
                 if self.facing_left:
                     self.image_rect = self.image.get_rect(bottomright = self.rect.bottomright)
                 else:
