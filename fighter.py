@@ -1,6 +1,6 @@
 import pygame as pg
 import settings
-from support import import_folder
+from support import import_folder, CSVTable
 
 class Fighter():
     def __init__(self, game,
@@ -31,7 +31,7 @@ class Fighter():
         self.movement_speed = movement_distance // int(settings.fps * self.n_images["move"] * self.animation_speed / 1000 )
         self.health = max_health
         
-        # print(self.movement_speed)
+        self.load_attack_state_lims(path)
         
         # animation
         self.image_rect = self.image.get_rect(midbottom = self.rect.midbottom)
@@ -65,6 +65,14 @@ class Fighter():
             folder_path = path + state
             self.sprites[state] = import_folder(folder_path)
             self.n_images[state] = len(self.sprites[state])
+            
+    def load_attack_state_lims(self, path):
+        csv_table = CSVTable(path + "attack_state_lims.csv")
+        self.attack_state_lims = {}
+        for row in csv_table.table:
+            telegraph_lim = int(row[csv_table.col_index["telegraph_lim"]])
+            attack_lim = int(row[csv_table.col_index["attack_lim"]])
+            self.attack_state_lims.update({row[csv_table.col_index["name"]]: {"telegraph": telegraph_lim, "attack": attack_lim}})
             
     @property
     def telegraphing(self):
