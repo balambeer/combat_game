@@ -28,7 +28,7 @@ class Fighter():
         self.rect = pg.Rect((start_pos[0] - self.image.get_width() // 2, start_pos[1] - self.image.get_height()),
                             (self.image.get_width(), self.image.get_height()))
         self.facing_left = start_facing_left
-        self.movement_speed = movement_distance // int(settings.fps * self.n_images["move"] * self.animation_speed / 1000 )
+        self.movement_speed = movement_distance // int(settings.fps * self.n_images["walk"] * self.animation_speed / 1000 )
         self.health = max_health
         
         self.load_attack_state_lims(path)
@@ -43,7 +43,7 @@ class Fighter():
         
     def load_sprites(self, path):
         self.sprites = { "idle": [],
-                         "move": [],
+                         "walk": [],
                          "turn": [],
                          "attack_low": [],
                          "attack_mid": [],
@@ -52,7 +52,7 @@ class Fighter():
                          "pain": [],
                          "death": [] }
         self.n_images = { "idle": 0,
-                          "move": 0,
+                          "walk": 0,
                           "turn": 0,
                           "attack_low": 0,
                           "attack_mid": 0,
@@ -112,7 +112,7 @@ class Fighter():
                 self.image_counter = 0
                 self.changed_state = True
         elif self.state == "idle":
-            if ( control_input == "move" or
+            if ( control_input == "walk" or
                  control_input == "turn"):
                 self.state = control_input
                 self.image_counter = 0
@@ -150,7 +150,7 @@ class Fighter():
             self.changed_state = True
             self.pain = False
         elif self.state == "idle":
-            if ( control_input == "move" or
+            if ( control_input == "walk" or
                  control_input == "turn" or
                  control_input == "attack_low" or
                  control_input == "attack_mid" or
@@ -179,7 +179,7 @@ class Fighter():
             self.attack_state = "none"
                 
     def update_position_and_facing(self):
-        if self.state == "move":
+        if self.state == "walk":
             if self.facing_left:
                 self.rect.x -= self.movement_speed
             else:

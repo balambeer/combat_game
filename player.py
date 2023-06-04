@@ -19,14 +19,14 @@ class Player(Fighter):
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT]:
             if self.facing_left:
-                control_input = "move"
+                control_input = "walk"
             else:
                 control_input = "turn"
         if keys[pg.K_RIGHT]:
             if self.facing_left:
                 control_input = "turn"
             else:
-                control_input = "move"
+                control_input = "walk"
         if keys[pg.K_a]:
             control_input = "attack_low"
         if keys[pg.K_s]:
