@@ -13,14 +13,15 @@ Try to build a prototype fast!
 Implementation
 --------------
 
-- Separate movement in/out of fight, i.e. walk/turn versus strafe forward and back.
 - Add more frames to attacks, keep in mind: telegraph must be longer than recovery
+- Add health markers
 - Add NPC attack logic
+- Test if riposte works as intended
 
 Preparation for adding maps and stuff:
 - Flip sprites based on facing
 - Scale and position enemies
-- Add NPC idle logic
+- Add NPC idle logic (like patrolling a corridor, searching for the PC or whatever)
 
 Maps and stuff:
 - Add game-world position representation & conversion to screen position (i.e. camera)

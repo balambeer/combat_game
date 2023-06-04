@@ -23,7 +23,7 @@ class CharacterHandler():
                 ) # TODO: placeholder
             )
         
-    def resolve_fight_with_enemy(self, enemy):
+    def resolve_attacks_with_enemy(self, enemy):
         if self.player.attack_state == "attack":
             if enemy.rect.colliderect(self.player.image_rect) and not enemy.state == "block":
                 enemy.pain = True
@@ -32,10 +32,6 @@ class CharacterHandler():
             if self.player.rect.colliderect(enemy.image_rect) and not self.player.state == "block":
                 self.player.pain = True
                 enemy.attack_state = "recovery"
-                
-    def resolve_fights(self):
-        for fighting_enemy in self.fight_list:
-            self.resolve_fight_with_enemy(fighting_enemy)
         
     def update_lists(self):
         for enemy in self.enemy_list:
@@ -45,6 +41,8 @@ class CharacterHandler():
             if enemy.in_fight(self.player) and len(self.fight_list) == 0:
                 self.fight_list.append(enemy)
                 self.enemy_list.remove(enemy)
+                self.player.to_fight = True
+                enemy.to_fight = True
         for enemy in self.fight_list:
             if enemy.dead and enemy.image_counter == 0:
                 self.dead_enemy_list.append(enemy)
@@ -52,6 +50,8 @@ class CharacterHandler():
             if not enemy.in_fight(self.player):
                 self.enemy_list.append(enemy)
                 self.fight_list.remove(enemy)
+                self.player.to_normal = True
+                enemy.to_normal = True
         
     def update(self):
         self.update_lists()
@@ -65,7 +65,7 @@ class CharacterHandler():
             enemy.update(None)
         for enemy in self.fight_list:
             enemy.update(self.player)
-            self.resolve_fight_with_enemy(enemy)
+            self.resolve_attacks_with_enemy(enemy)
             
     def draw(self):
         self.player.draw()

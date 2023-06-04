@@ -38,11 +38,16 @@ class Fighter():
         self.image_counter = 0
         self.time_since_last_frame = 0
         
+        self.to_fight = False
+        self.to_normal = False
+        
         # debug
         self.color = color
         
     def load_sprites(self, path):
         self.sprites = { "idle": [],
+                         "to_fight": [],
+                         "to_normal": [],
                          "walk": [],
                          "turn": [],
                          "shift_forward": [],
@@ -54,6 +59,8 @@ class Fighter():
                          "pain": [],
                          "death": [] }
         self.n_images = { "idle": 0,
+                          "to_fight": 0,
+                          "to_normal": 0,
                           "walk": 0,
                           "turn": 0,
                           "shift_forward": 0,
@@ -116,8 +123,13 @@ class Fighter():
                 self.image_counter = 0
                 self.changed_state = True
         elif self.state == "idle":
-            if (control_input == "shift_forward" or
-                control_input == "shift_backward"):
+            if self.to_fight:
+                self.state = "to_fight"
+                self.image_counter = 0
+                self.changed_state = True
+                self.to_fight = False
+            elif ( control_input == "shift_forward" or
+                   control_input == "shift_backward"):
                 self.state = control_input
                 self.image_counter = 0
                 self.changed_state = True
@@ -154,11 +166,16 @@ class Fighter():
             self.changed_state = True
             self.pain = False
         elif self.state == "idle":
-            if ( control_input == "walk" or
-                 control_input == "turn" or
-                 control_input == "attack_low" or
-                 control_input == "attack_mid" or
-                 control_input == "attack_high" ):
+            if self.to_normal:
+                self.state = "to_normal"
+                self.image_counter = 0
+                self.changed_state = True
+                self.to_normal = False
+            elif ( control_input == "walk" or
+                   control_input == "turn" or
+                   control_input == "attack_low" or
+                   control_input == "attack_mid" or
+                   control_input == "attack_high" ):
                 self.state = control_input
                 self.image_counter = 0
                 self.changed_state = True
