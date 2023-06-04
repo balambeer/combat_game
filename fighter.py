@@ -45,6 +45,8 @@ class Fighter():
         self.sprites = { "idle": [],
                          "walk": [],
                          "turn": [],
+                         "shift_forward": [],
+                         "shift_backward": [],
                          "attack_low": [],
                          "attack_mid": [],
                          "attack_high": [],
@@ -54,6 +56,8 @@ class Fighter():
         self.n_images = { "idle": 0,
                           "walk": 0,
                           "turn": 0,
+                          "shift_forward": 0,
+                          "shift_backward": 0,
                           "attack_low": 0,
                           "attack_mid": 0,
                           "attack_high": 0,
@@ -112,8 +116,8 @@ class Fighter():
                 self.image_counter = 0
                 self.changed_state = True
         elif self.state == "idle":
-            if ( control_input == "walk" or
-                 control_input == "turn"):
+            if (control_input == "shift_forward" or
+                control_input == "shift_backward"):
                 self.state = control_input
                 self.image_counter = 0
                 self.changed_state = True
@@ -179,11 +183,16 @@ class Fighter():
             self.attack_state = "none"
                 
     def update_position_and_facing(self):
-        if self.state == "walk":
+        if (self.state == "walk" or self.state == "shift_forward"):
             if self.facing_left:
                 self.rect.x -= self.movement_speed
             else:
                 self.rect.x += self.movement_speed
+        if (self.state == "shift_backward"):
+            if self.facing_left:
+                self.rect.x += self.movement_speed
+            else:
+                self.rect.x -= self.movement_speed
         if self.state == "turn" and self.image_counter == 0:
             self.facing_left = not self.facing_left
                 

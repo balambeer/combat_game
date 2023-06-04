@@ -12,21 +12,29 @@ class Player(Fighter):
                  color = "orchid3"):
         super().__init__(game, start_pos, start_facing_left, movement_distance, max_health, path, animation_speed, color)
         
-    def get_keyboard_inputs(self):
+    def get_keyboard_inputs(self, opponent):
         
         control_input = "idle"
         
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT]:
-            if self.facing_left:
+            if self.facing_left and opponent == None:
                 control_input = "walk"
-            else:
+            elif self.facing_left and not opponent == None:
+                control_input = "shift_forward"
+            elif not self.facing_left and opponent == None:
                 control_input = "turn"
+            elif not self.facing_left and not opponent == None:
+                control_input = "shift_backward"
         if keys[pg.K_RIGHT]:
-            if self.facing_left:
+            if self.facing_left and opponent == None:
                 control_input = "turn"
-            else:
+            elif self.facing_left and not opponent == None:
+                control_input = "shift_backward"
+            elif not self.facing_left and opponent == None:
                 control_input = "walk"
+            elif not self.facing_left and not opponent == None:
+                control_input = "shift_forward"
         if keys[pg.K_a]:
             control_input = "attack_low"
         if keys[pg.K_s]:
@@ -37,4 +45,4 @@ class Player(Fighter):
         return control_input
     
     def update(self, opponent):
-        super().update(self.get_keyboard_inputs(), opponent)
+        super().update(self.get_keyboard_inputs(opponent), opponent)
