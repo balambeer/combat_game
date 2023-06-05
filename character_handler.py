@@ -19,7 +19,8 @@ class CharacterHandler():
             NPC(self.game,
                 ( int(0.8 * settings.screen_width),
                   int(1.25 * settings.sky_proportion * settings.screen_height) ),
-                True
+                True,
+                1
                 ) # TODO: placeholder
             )
         
@@ -58,11 +59,13 @@ class CharacterHandler():
     def update(self):
         self.update_lists()
         
-        if len(self.fight_list) == 0:
-            self.player.update(None)
-        else:
-            # Player reacts to only the 1st enemy in the fight_list
-            self.player.update(self.fight_list[0])
+        if not (self.player.dead and self.player.image_counter == 0):
+            if len(self.fight_list) == 0:
+                self.player.update(None)
+            else:
+                # Player reacts to only the 1st enemy in the fight_list
+                self.player.update(self.fight_list[0])
+        
         for enemy in self.enemy_list:
             enemy.update(None)
         for enemy in self.fight_list:

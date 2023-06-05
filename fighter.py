@@ -102,7 +102,7 @@ class Fighter():
         return self.health <= 0
     
     def in_fight(self, opponent):
-        return abs(self.rect.x - opponent.rect.x) < settings.fight_distance
+        return (not opponent.dead and abs(self.rect.x - opponent.rect.x) < settings.fight_distance)
     
     def update_state_in_fight(self, control_input, opponent):
         

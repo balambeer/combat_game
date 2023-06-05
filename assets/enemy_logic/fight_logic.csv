@@ -1,0 +1,3 @@
+level,attack_prob,high_attack_prob,mid_attack_prob,low_attack_prob,block_prob,riposte_prob
+1,0.1,0.7,0.2,0.1,0.3,0.1
+2,0.2,0.5,0.3,0.2,0.4,0.2
