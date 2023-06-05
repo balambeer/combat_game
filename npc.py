@@ -24,15 +24,26 @@ class NPC(Fighter):
                          draw_health_left,
                          color)
         
+        self.last_call_to_ai = 0
+        
     def ai_controls_in_fight(self, opponent):
         ai_control = "idle"
-        if opponent.attacking:
-            if random.random() < 0.1:
-                ai_control = opponent.state
+        call_time = pg.time.get_ticks()
+        if (call_time - self.last_call_to_ai) > settings.ai_update_wait:
+            # print("Called AI, elapsed time = %s" % (call_time - self.last_call_to_ai))
+            if opponent.attacking:
+                if random.random() < 0.1:
+                    ai_control = opponent.state
+            
+            self.last_call_to_ai = call_time
         
         return ai_control
     
     def ai_controls_not_in_fight(self):
+        call_time = pg.time.get_ticks()
+        if (call_time - self.last_call_to_ai) > settings.ai_update_wait:
+            self.last_call_to_ai = call_time
+        
         return "idle"
     
     def update(self, opponent):

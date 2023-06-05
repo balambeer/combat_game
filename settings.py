@@ -16,7 +16,7 @@ menu_text_color = "gray"
 sky_proportion = 0.6
 
 # Fighter
-animation_speed = 100
+animation_speed = 90
 movement_distance = int(0.1 * screen_width)
 max_health = 3
 telegraphing_limit = 1
@@ -24,3 +24,4 @@ health_bar_offset = 0.05
 
 # NPC
 fight_distance = screen_width // 2
+ai_update_wait = animation_speed
