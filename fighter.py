@@ -10,6 +10,8 @@ class Fighter():
                  max_health,
                  path,
                  animation_speed,
+                 draw_health_default,
+                 draw_health_left,
                  color):
         self.game = game
         
@@ -40,6 +42,12 @@ class Fighter():
         
         self.to_fight = False
         self.to_normal = False
+        
+        # health bar
+        self.display_health = draw_health_default
+        self.draw_health_left = draw_health_left
+        self.heart_image = pg.image.load("assets/sprites/generic/heart.png").convert_alpha()
+        self.heart_image_width = self.heart_image.get_width()
         
         # debug
         self.color = color
@@ -253,7 +261,23 @@ class Fighter():
             self.update_position_and_facing()
         self.animate()
         
+    def draw_health(self):
+        if self.display_health:
+            offset = int(settings.health_bar_offset * settings.screen_width)
+            y_topleft = offset
+            if self.draw_health_left:
+                x_topleft = offset
+                for i in range(self.health):
+                    self.game.screen.blit(self.heart_image, (x_topleft, y_topleft))
+                    x_topleft += self.heart_image_width // 2
+            else:
+                x_topleft = settings.screen_width - offset - self.heart_image_width
+                for i in range(self.health):
+                    self.game.screen.blit(self.heart_image, (x_topleft, y_topleft))
+                    x_topleft -= self.heart_image_width // 2
+        
     def draw(self):
+        self.draw_health()
         self.game.screen.blit(self.image, self.image_rect)
         pg.draw.rect(self.game.screen,
                      self.color,

@@ -10,13 +10,24 @@ class NPC(Fighter):
                  max_health = settings.max_health,
                  path = "assets/sprites/fighter_2/",
                  animation_speed = settings.animation_speed,
+                 draw_health_default = False,
+                 draw_health_left = False,
                  color = "orchid3"):
-        super().__init__(game, start_pos, start_facing_left, movement_distance, max_health, path, animation_speed, color)
+        super().__init__(game,
+                         start_pos,
+                         start_facing_left,
+                         movement_distance,
+                         max_health,
+                         path,
+                         animation_speed,
+                         draw_health_default,
+                         draw_health_left,
+                         color)
         
     def ai_controls_in_fight(self, opponent):
         ai_control = "idle"
         if opponent.attacking:
-            if random.random() < 0.5:
+            if random.random() < 0.1:
                 ai_control = opponent.state
         
         return ai_control

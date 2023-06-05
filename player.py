@@ -9,8 +9,19 @@ class Player(Fighter):
                  max_health = settings.max_health,
                  path = "assets/sprites/fighter_1/",
                  animation_speed = settings.animation_speed,
+                 draw_health_default = True,
+                 draw_health_left = True,
                  color = "orchid3"):
-        super().__init__(game, start_pos, start_facing_left, movement_distance, max_health, path, animation_speed, color)
+        super().__init__(game,
+                         start_pos,
+                         start_facing_left,
+                         movement_distance,
+                         max_health,
+                         path,
+                         animation_speed,
+                         draw_health_default,
+                         draw_health_left,
+                         color)
         
     def get_keyboard_inputs(self, opponent):
         

@@ -43,6 +43,7 @@ class CharacterHandler():
                 self.enemy_list.remove(enemy)
                 self.player.to_fight = True
                 enemy.to_fight = True
+                enemy.display_health = True
         for enemy in self.fight_list:
             if enemy.dead and enemy.image_counter == 0:
                 self.dead_enemy_list.append(enemy)
@@ -52,6 +53,7 @@ class CharacterHandler():
                 self.fight_list.remove(enemy)
                 self.player.to_normal = True
                 enemy.to_normal = True
+                enemy.display_health = False
         
     def update(self):
         self.update_lists()

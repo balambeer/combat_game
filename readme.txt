@@ -9,12 +9,12 @@ I think at first go, just try to implement the simple stuff:
 
 Try to build a prototype fast!
 
+Keep in mind: telegraph must be longer than recovery
+
 
 Implementation
 --------------
 
-- Add more frames to attacks, keep in mind: telegraph must be longer than recovery
-- Add health markers
 - Add NPC attack logic
 - Test if riposte works as intended
 
