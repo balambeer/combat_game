@@ -5,6 +5,7 @@ from fighter import *
 class Player(Fighter):
     def __init__(self, game,
                  start_pos, start_facing_left,
+                 identifier = "player",
                  movement_distance = settings.movement_distance,
                  max_health = settings.max_health,
                  path = "assets/sprites/fighter_1/",
@@ -15,6 +16,7 @@ class Player(Fighter):
         super().__init__(game,
                          start_pos,
                          start_facing_left,
+                         identifier,
                          movement_distance,
                          max_health,
                          path,

@@ -6,6 +6,7 @@ class Fighter():
     def __init__(self, game,
                  start_pos,
                  start_facing_left,
+                 identifier,
                  movement_distance,
                  max_health,
                  path,
@@ -14,6 +15,7 @@ class Fighter():
                  draw_health_left,
                  color):
         self.game = game
+        self.id = identifier
         
         # sprites
         self.load_sprites(path)
@@ -125,6 +127,7 @@ class Fighter():
                         self.state = "attack_low"
                     else:
                         raise Exception("Opponent is not attacking...")
+                    self.attack_state = "none"
                 else:
                     self.state = "idle"
                     
@@ -204,7 +207,7 @@ class Fighter():
                 self.attack_state = "attack"
             else:
                 self.attack_state = "recovery"
-        else:
+        elif not (self.state == "block" and self.attack_state == "riposte"):
             self.attack_state = "none"
                 
     def update_position_and_facing(self):

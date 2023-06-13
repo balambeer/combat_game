@@ -15,12 +15,12 @@ Keep in mind: telegraph must be longer than recovery
 Implementation
 --------------
 
-- Add NPC attack logic
-- Test if riposte works as intended
+- Add game over condition
 
 Preparation for adding maps and stuff:
 - Flip sprites based on facing
 - Scale and position enemies
+- Add proper sprites
 - Add NPC idle logic (like patrolling a corridor, searching for the PC or whatever)
 
 Maps and stuff:

@@ -20,7 +20,8 @@ class CharacterHandler():
                 ( int(0.8 * settings.screen_width),
                   int(1.25 * settings.sky_proportion * settings.screen_height) ),
                 True,
-                1
+                3, # enemy level - dictating fight logic
+                "enemy"
                 ) # TODO: placeholder
             )
         

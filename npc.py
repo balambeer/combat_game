@@ -5,7 +5,7 @@ from fighter import *
 
 class NPC(Fighter):
     def __init__(self, game,
-                 start_pos, start_facing_left, npc_level,
+                 start_pos, start_facing_left, npc_level, identifier,
                  movement_distance = settings.movement_distance,
                  max_health = settings.max_health,
                  path = "assets/sprites/fighter_2/",
@@ -16,6 +16,7 @@ class NPC(Fighter):
         super().__init__(game,
                          start_pos,
                          start_facing_left,
+                         identifier,
                          movement_distance,
                          max_health,
                          path,
@@ -39,7 +40,7 @@ class NPC(Fighter):
         ai_control = "idle"
         call_time = pg.time.get_ticks()
         if (call_time - self.last_call_to_ai) > settings.ai_update_wait:
-            # print("Called AI, elapsed time = %s" % (call_time - self.last_call_to_ai))
+            # print("Called AI in fight, time = %s, elapsed time = %s" % (call_time, call_time - self.last_call_to_ai))
             self.last_call_to_ai = call_time
             random_number = random.random()
             
