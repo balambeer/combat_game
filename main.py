@@ -33,12 +33,17 @@ class Game:
                 
     # Update game state
     def check_game_over_condition(self):
-        return pg.mouse.get_pressed()[0]
+        return self.character_handler.game_over_condition_met
     
     def update_game_state(self):
         if self.check_game_over_condition():
-            self.menu.update_at_game_over()
-            self.game_over = True
+            text = self.font.render("Press LMB to return to menu", False, settings.menu_text_color)
+            text_rect = text.get_rect(center = (0.5 * settings.screen_width, 0.2 * settings.screen_height))
+            self.screen.blit(text, text_rect)
+            
+            if pg.mouse.get_pressed()[0]:       
+                self.menu.update_at_game_over()
+                self.game_over = True
         else:
             self.delta_time = self.clock.tick(settings.fps)
             self.character_handler.update()

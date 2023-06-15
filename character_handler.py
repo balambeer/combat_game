@@ -20,10 +20,20 @@ class CharacterHandler():
                 ( int(0.8 * settings.screen_width),
                   int(1.25 * settings.sky_proportion * settings.screen_height) ),
                 True,
-                3, # enemy level - dictating fight logic
+                1, # enemy level - dictating fight logic
                 "enemy"
                 ) # TODO: placeholder
             )
+        
+    @property
+    def game_over_condition_met(self):
+        player_game_over = self.player.game_over_condition_met
+        no_enemies_alive = len(self.enemy_list) == 0 and len(self.fight_list) == 0
+        death_animations_finished = len(self.dead_enemy_list) > 0
+        for enemy in self.dead_enemy_list:
+            death_animations_finished = death_animations_finished and enemy.game_over_condition_met
+            
+        return player_game_over or (no_enemies_alive and death_animations_finished)
         
     def resolve_attacks_with_enemy(self, enemy):
         if self.player.attack_state == "attack":

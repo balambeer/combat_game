@@ -94,7 +94,7 @@ class Fighter():
             telegraph_lim = int(row[csv_table.col_index["telegraph_lim"]])
             attack_lim = int(row[csv_table.col_index["attack_lim"]])
             self.attack_state_lims.update({row[csv_table.col_index["name"]]: {"telegraph": telegraph_lim, "attack": attack_lim}})
-            
+           
     @property
     def attacking(self):
         return (self.state == "attack_low" or self.state == "attack_mid" or self.state == "attack_high")
@@ -102,6 +102,10 @@ class Fighter():
     @property
     def dead(self):
         return self.health <= 0
+    
+    @property
+    def game_over_condition_met(self):
+        return (self.dead and self.image_counter == 0)
     
     def in_fight(self, opponent):
         return (not opponent.dead and abs(self.rect.x - opponent.rect.x) < settings.fight_distance)

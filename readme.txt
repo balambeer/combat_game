@@ -15,8 +15,6 @@ Keep in mind: telegraph must be longer than recovery
 Implementation
 --------------
 
-- Add game over condition
-
 Preparation for adding maps and stuff:
 - Flip sprites based on facing
 - Scale and position enemies
