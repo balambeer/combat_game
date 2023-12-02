@@ -16,6 +16,7 @@ Implementation
 --------------
 
 Preparation for adding maps and stuff:
+- Add en-guard state (idle when fighting)
 - Flip sprites based on facing
 - Scale and position enemies
 - Add proper sprites
