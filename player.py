@@ -8,11 +8,12 @@ class Player(Fighter):
                  identifier = "player",
                  movement_distance = settings.movement_distance,
                  max_health = settings.max_health,
-                 path = "assets/sprites/fighter_1/",
+                 path = "assets/sprites/fighter_3/",
                  animation_speed = settings.animation_speed,
                  draw_health_default = True,
                  draw_health_left = True,
-                 color = "orchid3"):
+                 color = "orchid3",
+                 size = settings.fighter_size_on_screen):
         super().__init__(game,
                          start_pos,
                          start_facing_left,
@@ -23,7 +24,8 @@ class Player(Fighter):
                          animation_speed,
                          draw_health_default,
                          draw_health_left,
-                         color)
+                         color,
+                         size)
         
     def get_keyboard_inputs(self, opponent):
         

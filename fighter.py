@@ -13,12 +13,13 @@ class Fighter():
                  animation_speed,
                  draw_health_default,
                  draw_health_left,
-                 color):
+                 color,
+                 size):
         self.game = game
         self.id = identifier
         
         # sprites
-        self.load_sprites(path)
+        self.load_sprites(path, size)
         self.image = self.sprites["idle"][0]
         
         # animation
@@ -54,7 +55,7 @@ class Fighter():
         # debug
         self.color = color
         
-    def load_sprites(self, path):
+    def load_sprites(self, path, fighter_size):
         self.sprites = { "idle": [],
                          "to_fight": [],
                          "to_normal": [],
@@ -84,7 +85,9 @@ class Fighter():
         
         for state in self.sprites.keys():
             folder_path = path + state
-            self.sprites[state] = import_folder(folder_path)
+            base_image = pg.image.load(path + "/base_image.png").convert_alpha()
+            base_image_height = base_image.get_height()
+            self.sprites[state] = import_folder(folder_path, fighter_size / base_image_height)
             self.n_images[state] = len(self.sprites[state])
             
     def load_attack_state_lims(self, path):

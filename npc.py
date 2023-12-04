@@ -12,7 +12,8 @@ class NPC(Fighter):
                  animation_speed = settings.animation_speed,
                  draw_health_default = False,
                  draw_health_left = False,
-                 color = "orchid3"):
+                 color = "orchid3",
+                 size = settings.fighter_size_on_screen):
         super().__init__(game,
                          start_pos,
                          start_facing_left,
@@ -23,7 +24,8 @@ class NPC(Fighter):
                          animation_speed,
                          draw_health_default,
                          draw_health_left,
-                         color)
+                         color,
+                         size)
         
         self.last_call_to_ai = 0
         self.load_fight_logic(npc_level)

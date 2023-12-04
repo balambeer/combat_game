@@ -18,7 +18,6 @@ Implementation
 Preparation for adding maps and stuff:
 - Add en-guard state (idle when fighting)
 - Flip sprites based on facing
-- Scale and position enemies
 - Add proper sprites
 - Add NPC idle logic (like patrolling a corridor, searching for the PC or whatever)
 

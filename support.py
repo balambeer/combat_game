@@ -2,11 +2,13 @@ import pygame as pg
 import csv
 from os import walk
 
-def import_folder(path):
+def import_folder(path, resize_ratio):
     img_list = []
     for _,_,img_files in walk(path):
         for img in img_files:
             image_surf = pg.image.load(path + "/" + img).convert_alpha()
+            img_height, img_width = image_surf.get_height(), image_surf.get_width()
+            image_surf = pg.transform.scale(image_surf, (int(resize_ratio * img_width), int(resize_ratio * img_height)))
             img_list.append(image_surf)
     return img_list
 
